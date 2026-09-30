@@ -4,6 +4,6 @@ import Story from '../../stories/subscriptions/Story.astro';
 import { caseStudies } from '../../data/case-studies';
 const study = caseStudies.find(study => study.slug === 'subscriptions')!;
 ---
-<BaseLayout title={`${study.question} · Pallab`} description={study.description}>
+<BaseLayout title={`${study.pageTitle} · Pallab`} description={study.description}>
   <Story />
 </BaseLayout>
