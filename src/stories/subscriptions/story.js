@@ -10,7 +10,7 @@ const renderer=createFilmRenderer($('world'));
 const playground=initPlayground(document.querySelector('.lab'));
 const motionQuery=matchMedia('(prefers-reduced-motion: reduce)');
 const dots=[...document.querySelectorAll('.scene-dots a')];
-const artScenes=[{id:0,opacity:.48},{id:1,opacity:.20},{id:1,opacity:.12},{id:1,opacity:.12},{id:1,opacity:.18},{id:0,opacity:.32}];
+const artScenes=[{id:0,opacity:.48},{id:0,opacity:.40},{id:1,opacity:.20},{id:1,opacity:.12},{id:1,opacity:.18},{id:0,opacity:.32}];
 let reduced=motionQuery.matches,scene=-1,state=getStoryState(0,0),progress=0;
 let height=stage.clientHeight,mobile=innerWidth<=650,frame=0,last=0,time=0,inFilm=true;
 let restoreFocus=null,scrollQueued=false;
@@ -19,7 +19,8 @@ function changeScene(index){
  $('scene-eyebrow').textContent=data.eyebrow;$('scene-title').innerHTML=data.title;$('scene-line').textContent=data.caption;
  $('film-position').textContent=`0${index+1} / 06`;
  dots.forEach((dot,i)=>{dot.classList.toggle('active',i===index);if(i===index)dot.setAttribute('aria-current','step');else dot.removeAttribute('aria-current');});
- $('coverage-legend').hidden=index===0;
+ $('coverage-legend').hidden=index<=1;
+ $('scene-aside').textContent=data.aside??'';$('scene-aside').hidden=!data.aside;
 }
 function update(){
  const rect=film.getBoundingClientRect(),range=Math.max(1,film.offsetHeight-height);
@@ -35,7 +36,6 @@ function update(){
  $('data-caption').textContent=state.numberLabel;$('scene-number').textContent=String(state.total);
  $('data-after').textContent=`DAY ${state.day}`;
  $('proposed').hidden=true;
- $('scene-aside').hidden=true;
  $('world').setAttribute('aria-label',`${SCENES[index].eyebrow}. Day ${state.day}: ${state.total} seats. ${SCENES[index].caption}`);
  $('film-begin').hidden=index!==0;
  $('film-begin').style.opacity=String(1-smooth(phase/.8));
