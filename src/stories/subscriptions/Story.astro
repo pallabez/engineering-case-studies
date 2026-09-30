@@ -1,0 +1,50 @@
+---
+import "./style.css";
+import "./playground.css";
+---
+
+<a class="skip" href="#playground">Skip to the interactive timeline</a>
+<main id="top">
+<div class="film-scroll" id="film-scroll">
+<div class="film-stage" id="film-stage" data-scene-index="0">
+<div class="cinema-backdrop" aria-hidden="true"><img id="ribbon-art" src="/stories/subscriptions/assets/cinema-ribbon.png" width="1672" height="941" alt="" fetchpriority="high"><img id="ledger-art" src="/stories/subscriptions/assets/cinema-ledger.png" width="1672" height="941" alt=""></div>
+<div class="frame-shade" aria-hidden="true"></div>
+<canvas id="world" role="img" aria-label="Three dated coverage facts produce 26 seats on day 25."></canvas>
+<header class="film-header"><a href="#top" class="byline">PALLAB <span>/</span> SUBSCRIPTION REVAMP</a><p class="customer">ASTER STUDIO <span>ILLUSTRATIVE CUSTOMER</span></p></header>
+<div class="film-caption" id="film-caption"><p class="scene-eyebrow" id="scene-eyebrow">01 / CURRENT STATE</p><h1 id="scene-title">Your database<br><em>says 26.</em></h1><p class="scene-line" id="scene-line">How did it get here?</p><div class="coverage-legend" id="coverage-legend" aria-label="Coverage colors"><span class="purchase">Purchase</span><span class="temporary">Temporary</span><span class="correction">Correction</span></div></div>
+<div class="scene-data" id="scene-data"><span class="data-caption" id="data-caption">CURRENT SEAT LIMIT</span><strong id="scene-number">26</strong><span class="data-after" id="data-after">DAY 25</span><span class="proposed" id="proposed" hidden>Proposed <b id="proposed-number">26</b><small>Not applied</small></span></div>
+<p class="scene-aside" id="scene-aside"></p>
+<a class="film-begin" id="film-begin" href="#scene-1"><span class="scroll-stem" aria-hidden="true"></span> SCROLL TO REVEAL THE HISTORY</a>
+<div class="film-end" id="film-end"><a href="#playground">Explore this customer's timeline</a><a href="#top" class="replay-link">Replay</a></div>
+<nav class="scene-dots" id="scene-dots" aria-label="Film scenes"><a href="#scene-0" aria-label="Scene 1: The current answer"></a><a href="#scene-1" aria-label="Scene 2: The history"></a><a href="#scene-2" aria-label="Scene 3: Same facts, different day"></a><a href="#scene-3" aria-label="Scene 4: What applies today"></a><a href="#scene-4" aria-label="Scene 5: The materialized view"></a><a href="#scene-5" aria-label="Scene 6: History and current state"></a></nav>
+<div class="film-bottom"><span id="film-position">01 / 06</span><div class="film-progress" aria-hidden="true"><i id="film-progress"></i></div><button id="hood-open" aria-haspopup="dialog">Under the hood <span aria-hidden="true">+</span></button><button id="motion-toggle" aria-pressed="false">Reduce motion</button></div>
+</div>
+<div class="scene-anchor" id="scene-0"></div><div class="scene-anchor" id="scene-1"></div><div class="scene-anchor" id="scene-2"></div><div class="scene-anchor" id="scene-3"></div><div class="scene-anchor" id="scene-4"></div><div class="scene-anchor" id="scene-5"></div><div class="scene-anchor" id="story"></div>
+</div>
+<section class="lab" id="playground" aria-labelledby="lab-title">
+  <header class="lab-heading"><p class="lab-eyebrow">YOUR TURN · ASTER STUDIO · FICTIONAL CUSTOMER</p><h2 id="lab-title">Move time.<br><em>Watch access change.</em></h2><p class="lab-intro">The same customer. Four coverage windows. Choose a day to see which facts count.</p></header>
+  <div class="lab-readout" aria-live="polite" aria-atomic="true"><div><output class="lab-day" data-lab-day>Day 25</output><p data-lab-status>3 active facts</p></div><div class="lab-total"><strong data-lab-total>26</strong><span>seats available</span></div></div>
+  <div class="lab-ledger" aria-label="Aster Studio's coverage windows, inclusive of their first and last days">
+    <div class="lab-row lab-purchase" data-lab-row="base"><div class="lab-row-label"><strong>Purchase <span>+20 seats</span></strong><span>Days 1–45 <b data-lab-state>Counts today</b></span></div><div class="lab-track" aria-hidden="true"><i class="lab-window" style="left:0%;width:75%"></i><i class="lab-cursor"></i></div></div>
+    <div class="lab-row lab-temp" data-lab-row="temp"><div class="lab-row-label"><strong>Temporary <span>+10 seats</span></strong><span>Days 15–30 <b data-lab-state>Counts today</b></span></div><div class="lab-track" aria-hidden="true"><i class="lab-window" style="left:23.3333%;width:26.6667%"></i><i class="lab-cursor"></i></div></div>
+    <div class="lab-row lab-correction" data-lab-row="correction"><div class="lab-row-label"><strong>Correction <span>−4 seats</span></strong><span>Days 20–45 <b data-lab-state>Counts today</b></span></div><div class="lab-track" aria-hidden="true"><i class="lab-window" style="left:31.6667%;width:43.3333%"></i><i class="lab-cursor"></i></div></div>
+    <div class="lab-row lab-purchase" data-lab-row="renewal"><div class="lab-row-label"><strong>Next purchase <span>+24 seats</span></strong><span>Days 46–60 <b data-lab-state>Not included</b></span></div><div class="lab-track" aria-hidden="true"><i class="lab-window" style="left:75%;width:25%"></i><i class="lab-cursor"></i></div></div>
+    <div class="lab-axis" aria-hidden="true"><span>Day 1</span><span>Day 15</span><span>Day 30</span><span>Day 45</span><span>Day 60</span></div>
+  </div>
+  <div class="lab-scrub"><label for="lab-slider">Choose a day</label><input id="lab-slider" data-lab-slider type="range" min="1" max="60" step="1" value="25" aria-describedby="lab-window-note"><output data-lab-slider-day for="lab-slider">25</output></div>
+  <div class="lab-presets" role="group" aria-label="Jump to an example with temporary coverage and correction included, next purchase excluded"><button type="button" data-lab-preset="1">Day 1 <span>20 seats</span></button><button type="button" data-lab-preset="15">Day 15 <span>30 seats</span></button><button type="button" data-lab-preset="25">Day 25 <span>26 seats</span></button><button type="button" data-lab-preset="31">Day 31 <span>16 seats</span></button><button type="button" data-lab-preset="46">Day 46 <span>0 seats</span></button></div>
+  <fieldset class="lab-options"><legend>Include these facts in Aster Studio's ledger</legend><label class="lab-temp"><input type="checkbox" data-lab-option="temp" checked>Temporary +10</label><label class="lab-correction"><input type="checkbox" data-lab-option="correction" checked>Correction −4</label><label class="lab-purchase"><input type="checkbox" data-lab-option="renewal">Next purchase +24</label></fieldset>
+  <div class="lab-calculation"><p class="lab-equation" data-lab-equation>20 + 10 − 4 = 26 seats</p><p data-lab-facts>Purchase +20, temporary +10, correction −4 count on day 25.</p></div>
+  <p class="lab-note" id="lab-window-note">Windows include both end days. Presets restore the example ledger. These are illustrative counts and dates.</p>
+</section>
+
+<section class="side-stories" aria-label="More about the revamp"><p>Two more parts of the revamp</p><button data-side-story="0" aria-haspopup="dialog">How a correction gets approved <span>↗</span></button><button data-side-story="1" aria-haspopup="dialog">How existing subscriptions migrate <span>↗</span></button></section>
+<section class="static-story" aria-label="Story transcript"><h2>History and current state</h2><p>Aster Studio has 26 seats on day 25. Its ledger explains why: a purchase of 20 seats for days 1 to 45, a temporary grant of 10 for days 15 to 30, and an applied correction of minus 4 for days 20 to 45.</p><p>On day 31, the temporary grant no longer contributes. The total is 16. All three facts remain. The materialized projection stores the current answer for the app to read. Writers refresh it in their transaction; date transitions use a reactive daily refresh.</p><p>Preserve the history. Derive the present. This customer and the counts are fictional.</p></section>
+</main>
+<footer><a href="/">← All case studies</a><span>A subscription story by Pallab.</span><a href="#top">Back to the beginning</a></footer>
+<dialog id="hood-dialog" aria-labelledby="hood-title"><button id="hood-close" class="hood-close" aria-label="Close technical detail">×</button><p class="scene-eyebrow" id="hood-eyebrow"></p><h2 id="hood-title"></h2><p id="hood-note"></p><dl id="hood-facts"></dl><p class="hood-source">Real architectural decisions. Fictional customer and counts.</p></dialog>
+<noscript><style is:inline>.film-scroll{height:100svh}.film-stage{position:relative}.static-story{display:block}.scene-dots,.film-begin,.film-end,.film-bottom,.scene-data,#world{display:none}.cinema-backdrop img:first-child{opacity:.7}.lab{display:none}</style></noscript>
+
+<script>
+import "./story.js";
+</script>
