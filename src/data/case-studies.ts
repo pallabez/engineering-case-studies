@@ -14,6 +14,6 @@ export const caseStudies = [
     question: 'Your database says 26. How did it get here?',
     description: 'How a payroll app rebuilt subscriptions as a ledger of dated facts, and why it still stores one answer.',
     topics: ['Subscriptions', 'Data modelling', 'Materialized views'],
-    image: '/stories/subscriptions/assets/cinema-ribbon.png',
+    image: 'stories/subscriptions/assets/cinema-ribbon.png',
   },
 ] satisfies CaseStudy[];

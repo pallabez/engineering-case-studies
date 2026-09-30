@@ -1,14 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { caseStudies } from '../data/case-studies';
+const base = import.meta.env.BASE_URL;
 ---
 <BaseLayout title="Engineering case studies · Pallab" description="Interactive stories about the systems I build, the decisions behind them, and how they work.">
   <main>
-    <header><a href="/" class="byline">PALLAB / ENGINEERING</a><span>CASE STUDIES</span></header>
+    <header><a href={base} class="byline">PALLAB / ENGINEERING</a><span>CASE STUDIES</span></header>
     <section class="intro" aria-labelledby="title"><p class="eyebrow">THE DECISIONS BEHIND THE SYSTEMS</p><h1 id="title">Built. Questioned.<br /><em>Explained.</em></h1><p class="lede">Stories from the systems I build.<br />Follow the decisions. Move the pieces. See what changes.</p></section>
     <section class="studies" aria-label="Case studies">
-      {caseStudies.map((study, i) => <a class="study" href={`/stories/${study.slug}/`}>
-        <div class="art"><img src={study.image} alt="" width="1672" height="941" loading={i === 0 ? 'eager' : 'lazy'} /><span class="number">{String(i + 1).padStart(2, '0')}</span></div>
+      {caseStudies.map((study, i) => <a class="study" href={`${base}stories/${study.slug}/`}>
+        <div class="art"><img src={`${base}${study.image}`} alt="" width="1672" height="941" loading={i === 0 ? 'eager' : 'lazy'} /><span class="number">{String(i + 1).padStart(2, '0')}</span></div>
         <div class="study-copy"><p class="topics">{study.topics.join(' / ')}</p><h2>{study.title}</h2><p class="question">{study.question}</p><p class="description">{study.description}</p><span class="open">Explore the story <span aria-hidden="true">↗</span></span></div>
       </a>)}
     </section>

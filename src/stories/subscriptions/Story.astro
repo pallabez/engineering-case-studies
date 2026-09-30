@@ -1,13 +1,14 @@
 ---
 import "./style.css";
 import "./playground.css";
+const base = import.meta.env.BASE_URL;
 ---
 
 <a class="skip" href="#playground">Skip to the interactive timeline</a>
 <main id="top">
 <div class="film-scroll" id="film-scroll">
 <div class="film-stage" id="film-stage" data-scene-index="0">
-<div class="cinema-backdrop" aria-hidden="true"><img id="ribbon-art" src="/stories/subscriptions/assets/cinema-ribbon.png" width="1672" height="941" alt="" fetchpriority="high"><img id="ledger-art" src="/stories/subscriptions/assets/cinema-ledger.png" width="1672" height="941" alt=""></div>
+<div class="cinema-backdrop" aria-hidden="true"><img id="ribbon-art" src={`${base}stories/subscriptions/assets/cinema-ribbon.png`} width="1672" height="941" alt="" fetchpriority="high"><img id="ledger-art" src={`${base}stories/subscriptions/assets/cinema-ledger.png`} width="1672" height="941" alt=""></div>
 <div class="frame-shade" aria-hidden="true"></div>
 <canvas id="world" role="img" aria-label="Three dated coverage facts produce 26 seats on day 25."></canvas>
 <header class="film-header"><a href="#top" class="byline">PALLAB <span>/</span> SUBSCRIPTION REVAMP</a><p class="customer">ASTER STUDIO <span>ILLUSTRATIVE CUSTOMER</span></p></header>
@@ -40,7 +41,7 @@ import "./playground.css";
 <section class="side-stories" aria-label="More about the revamp"><p>Two more parts of the revamp</p><button data-side-story="0" aria-haspopup="dialog">How a correction gets approved <span>↗</span></button><button data-side-story="1" aria-haspopup="dialog">How existing subscriptions migrate <span>↗</span></button></section>
 <section class="static-story" aria-label="Story transcript"><h2>History and current state</h2><p>This is a story about rebuilding subscription tracking in a payroll app. A seat is one staff member the customer can manage.</p><p><strong>Before.</strong> The old table kept one record per subscription and updated it in place, so a seat count had no record of the changes behind it.</p><p><strong>After.</strong> Aster Studio has 26 seats on day 25. Its ledger explains why: a purchase of 20 seats for days 1 to 45, a temporary grant of 10 for days 15 to 30, and an applied correction of minus 4 for days 20 to 45.</p><p>On day 31, the temporary grant no longer contributes. The total is 16. All three facts remain. The materialized projection stores the current answer for the app to read. Writers refresh it in their transaction; date transitions use a reactive daily refresh.</p><p>Keep the facts. Store the answer. This customer and the counts are fictional.</p></section>
 </main>
-<footer><a href="/">← All case studies</a><span>A subscription story by Pallab.</span><a href="#top">Back to the beginning</a></footer>
+<footer><a href={base}>← All case studies</a><span>A subscription story by Pallab.</span><a href="#top">Back to the beginning</a></footer>
 <dialog id="hood-dialog" aria-labelledby="hood-title"><button id="hood-close" class="hood-close" aria-label="Close technical detail">×</button><p class="scene-eyebrow" id="hood-eyebrow"></p><h2 id="hood-title"></h2><p id="hood-note"></p><dl id="hood-facts"></dl><p class="hood-source">Real architectural decisions. Fictional customer and counts.</p></dialog>
 <noscript><style is:inline>.film-scroll{height:100svh}.film-stage{position:relative}.static-story{display:block}.scene-dots,.film-begin,.film-end,.film-bottom,.scene-data,#world{display:none}.cinema-backdrop img:first-child{opacity:.7}.lab{display:none}</style></noscript>
 
