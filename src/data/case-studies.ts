@@ -22,9 +22,9 @@ export const caseStudies = [
   },
   {
     slug: 'subscription-ledger',
-    title: 'Nobody touched this row.',
-    question: 'By morning it was wrong. What do you store instead?',
-    pageTitle: 'Nobody touched this row: replacing a subscription table with a ledger',
+    title: 'What should a subscription table store?',
+    question: 'Ours stored the answer. It went stale at midnight.',
+    pageTitle: 'What should a subscription table store? Replacing a status row with a ledger',
     description: 'Three decisions behind a subscription rebuild: store facts, compute state, and cache one answer.',
     topics: ['Subscriptions', 'Append-only ledger', 'Migration'],
     image: 'stories/subscription-ledger/assets/cover.svg',

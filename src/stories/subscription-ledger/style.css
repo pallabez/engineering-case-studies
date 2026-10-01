@@ -38,7 +38,7 @@ code { font-family: var(--mono); font-size: .9em; }
 
 .top { position: fixed; inset: 0 0 auto; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 56px; padding: 0 var(--gutter); background: color-mix(in srgb, #f3eee3 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid #d6cdb9; color: #15171c; }
 .byline { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-decoration: none; }
-.byline span { color: #a39a86; margin: 0 6px; }
+.byline span { color: var(--red); }
 .top nav { display: flex; gap: 22px; }
 .top nav a { font-size: 13px; text-decoration: none; color: #5b5e66; padding: 6px 0; border-bottom: 2px solid transparent; }
 .top nav a b { font-family: var(--mono); font-weight: 400; font-size: 11px; color: #a39a86; margin-right: 4px; }
