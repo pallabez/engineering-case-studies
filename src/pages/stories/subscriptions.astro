@@ -1,9 +1,0 @@
----
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Story from '../../stories/subscriptions/Story.astro';
-import { caseStudies } from '../../data/case-studies';
-const study = caseStudies.find(study => study.slug === 'subscriptions')!;
----
-<BaseLayout title={`${study.pageTitle} · Pallab`} description={study.description}>
-  <Story />
-</BaseLayout>

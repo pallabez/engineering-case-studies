@@ -1,6 +1,6 @@
 ---
 interface Props { title: string; description: string; image?: string; }
-const { title, description, image = 'og/subscriptions.jpg' } = Astro.props;
+const { title, description, image = 'og/subscription-ledger.jpg' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const url = new URL(Astro.url.pathname, Astro.site);
 const imageUrl = new URL(base + image, Astro.site);

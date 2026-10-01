@@ -12,15 +12,6 @@ export interface CaseStudy {
 
 export const caseStudies = [
   {
-    slug: 'subscriptions',
-    title: 'History becomes the present.',
-    question: 'Your database says 26. How did it get here?',
-    pageTitle: 'A scroll story about rebuilding subscriptions',
-    description: 'How a SaaS product rebuilt subscriptions as a ledger of dated facts, and why it still stores one answer.',
-    topics: ['Subscriptions', 'Data modelling', 'Materialized views'],
-    image: 'stories/subscriptions/assets/cinema-ribbon.png',
-  },
-  {
     slug: 'subscription-ledger',
     title: 'What should a subscription table store?',
     question: 'Ours stored the answer. It went stale at midnight.',

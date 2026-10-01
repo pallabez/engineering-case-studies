@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Open the URL printed by Astro, normally http://127.0.0.1:4173/. Astro chooses the next available port if that port is busy. The subscription story lives at `/stories/subscriptions/`. A second telling of the same project lives at `/stories/subscription-ledger/`.
+Open the URL printed by Astro, normally http://127.0.0.1:4173/. Astro chooses the next available port if that port is busy. The subscription ledger story lives at `/stories/subscription-ledger/`.
 
 ```sh
 npm run check
@@ -27,13 +27,12 @@ npm run preview
 - `src/pages/stories/`: a route for each case study.
 - `src/layouts/BaseLayout.astro`: shared document metadata and HTML shell.
 - `src/data/case-studies.ts`: typed case-study catalog used by the index.
-- `src/stories/subscriptions/`: the subscription film, scene data, canvas renderer, timeline, and CSS.
 - `src/stories/subscription-ledger/`: the decision-log story. `fold.ts` is the coverage fold, `story.ts` drives the interactive ledger, `fold.check.ts` is its self-check.
-- `public/stories/subscriptions/assets/`: original illustrations.
+- `public/stories/subscription-ledger/assets/`: ledger illustrations.
 - `docs/`: factual background and illustration provenance.
 - `previews/`: design-review screenshots, excluded from the published output.
 
-The existing film renderer and controls remain JavaScript during this migration. Site metadata, Astro component props, and new pages use TypeScript. React is optional if a future story needs it; the existing story does not.
+Site metadata, Astro component props, and interactive code use TypeScript.
 
 ## Add a case study
 
@@ -49,13 +48,9 @@ The index automatically lists catalog entries. Each story owns its visual langua
 
 `npm run build` creates static files in `dist/` for any static host. Existing Sites project metadata is retained in `.openai/hosting.json`. This migration does not publish the project.
 
-## Subscription story
-
-The first story opens with a current value of 26 seats, reveals three signed coverage facts, advances time to 16 seats, and explains the materialized view. Approvals and migration remain optional side stories. The customer, dates, and counts are fictional. See `docs/subscription-story.md` and `docs/ILLUSTRATIONS.md`.
-
 ## Subscription ledger story
 
-The second story covers the same project as a decision log: why the old row went stale, the append-only ledger, the fold and the projection row. Its interactive runs a port of the fold on a fictional account. See `docs/subscription-ledger-story.md`.
+The story covers the subscription rebuild as a decision log: why the old row went stale, the append-only ledger, the fold and the projection row. Its interactive runs a port of the fold on a fictional account. See `docs/subscription-ledger-story.md`.
 
 ```sh
 node src/stories/subscription-ledger/fold.check.ts

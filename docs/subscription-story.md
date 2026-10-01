@@ -1,5 +1,7 @@
 # Subscriptions, in motion
 
+Archived design notes for the removed subscriptions scroll film. Its source, route, and public assets have been removed. The current story is at `/stories/subscription-ledger/`.
+
 Cinematic scrolling story about Pallab's subscription revamp. A pinned full-screen canvas follows six scenes, with scroll-driven camera roll, image crossfades, coverage particles, and short captions. The final timeline is interactive. The Astro source lives in `src/stories/subscriptions/`. Run `npm run dev` from the project root. `npm run build` generates static output in `dist/`.
 
 ## Content basis
