@@ -1,8 +1,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://pallabez.github.io',
-  base: '/engineering-case-studies/',
+  site: 'https://pallab.fyi',
+  base: '/',
   output: 'static',
   devToolbar: { enabled: false },
 });
