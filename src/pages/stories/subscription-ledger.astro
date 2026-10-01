@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Story from '../../stories/subscription-ledger/Story.astro';
+import { caseStudies } from '../../data/case-studies';
+const study = caseStudies.find(study => study.slug === 'subscription-ledger')!;
+---
+<BaseLayout title={`${study.pageTitle} · Pallab`} description={study.description} image={study.ogImage}>
+  <Story />
+</BaseLayout>

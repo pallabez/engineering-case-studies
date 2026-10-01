@@ -1,0 +1,288 @@
+---
+/**
+ * One drawing that the scroll position moves through nine beats.
+ * Shapes sit in the #rough layer and text in the layer above it, so an element with parts in both repeats its data-el.
+ * data-el elements move by the keyframes in the script. data-at="a b" shows an element only during those beats.
+ * The viewBox is a camera that frames what each beat draws.
+ */
+const cards = [
+  { el: 'card', title: 'SUBSCRIPTIONS ROW', start: 'day 1', end: null, limit: '10' },
+  { el: 'proj', title: 'PROJECTION ROW', start: 'day 8', end: 'day 38', limit: '12' },
+];
+const slips = [
+  { el: 's1', count: '+10', label: 'sale · days 8 to 37', wash: 'f-blue' },
+  { el: 's2', count: '+5', label: 'add-on · days 20 to 37', wash: 'f-blue' },
+  { el: 's3', count: '−3', label: 'correction · days 26 to 37', wash: 'f-red' },
+  { el: 's4', count: '+10', label: 'renewal · days 38 to 67', wash: 'f-blue' },
+];
+const notes = [
+  { y: 408, text: 'one row, edited in place' },
+  { y: 412, text: 'Day 31. Nothing wrote to this row.' },
+  { y: 408, text: 'Each change overwrote the last.' },
+  { y: 386, text: 'dates: not read' },
+  { y: 500, text: 'Rows go on. None come off.' },
+  { y: 500, text: 'Same provenance. 0 rows appended.' },
+  { y: 500, text: 'day 30:  10 + 5 − 3 = 12' },
+  { y: 408, text: 'written in the writer\'s transaction' },
+  { y: 486, text: 'one read, no fold' },
+];
+const ticks = [1, 10, 20, 30, 40, 50, 60, 70].map(day => ({ day, x: 40 + ((day - 1) * 520) / 75 }));
+---
+
+<svg class="art stage" viewBox="0 0 600 520" aria-hidden="true">
+  <g filter="url(#rough)">
+    <g data-at="1" transform="translate(455 120)">
+      <rect class="f-red ns" x="-35" y="-41" width="84" height="96" rx="4" />
+      <rect class="f-paper" x="-42" y="-48" width="84" height="96" rx="4" />
+      <path d="M-42 -22h84M-20 -56v16M20 -56v16" />
+    </g>
+
+    <g data-at="2" transform="translate(470 190) rotate(20)">
+      <rect class="f-red" x="0" y="0" width="18" height="14" rx="3" />
+      <rect class="f-amber" x="0" y="14" width="18" height="64" />
+      <path class="f-paper" d="M0 78l9 20 9-20z" />
+    </g>
+
+    <path data-at="3" class="draw" pathLength="1" d="M306 212c40-24 80-10 116 22m-4-14l4 14-14 1" />
+
+    <g data-at="4 5">
+      <ellipse class="f-amber ns" cx="226" cy="448" rx="70" ry="16" />
+      <ellipse class="f-paper" cx="220" cy="442" rx="70" ry="16" />
+      <path d="M220 440V120" stroke-width="3" />
+    </g>
+
+    <g data-at="6">
+      <path class="f-blue ns" d="M88.5 440V360H171.7V320H213.3V344H296.5V360H504.5V440Z" />
+      <path class="draw" pathLength="1" d="M88.5 440V360H171.7V320H213.3V344H296.5V360H504.5V440" />
+      <path d={`M40 440h520${ticks.map(tick => `M${tick.x} 440v6`).join('')}`} />
+      <path class="rp draw" pathLength="1" d="M244.6 448V84" />
+    </g>
+
+    {cards.map(card => (
+      <g data-el={card.el}>
+        <rect class="f-blue ns" x="-143" y="-103" width="300" height="220" rx="5" />
+        <rect class="f-paper" x="-150" y="-110" width="300" height="220" rx="5" />
+        <path d="M-150 -70h300" />
+        <path class="dash" d="M-134 -22h268M-134 18h268M-134 58h268" />
+        <rect class="stamp" x="50" y="-62" width="82" height="27" rx="4" transform="rotate(-4 91 -48)" />
+        {!card.end && <path data-at="1" class="rp draw" pathLength="1" d="M44 -44C40 -68 80 -74 112 -71s38 14 30 26-44 13-70 10-36-11-28-26" />}
+        {!card.end && <path data-at="2 3" class="rp draw" pathLength="1" d="M-34 37l54-4M24 37l54-4" />}
+      </g>
+    ))}
+
+    <g data-el="door">
+      <rect class="f-amber" x="-50" y="-62" width="72" height="124" />
+      <path class="f-blue" d="M22 -62l40 14v118l-40-8z" />
+      <circle class="f-paper" cx="52" cy="8" r="4" />
+    </g>
+
+    <g data-at="8">
+      <path d="M452 222v58" />
+      <path class="f-red" d="M452 224h48l-11 14 11 14h-48z" />
+      <circle class="f-paper" cx="476" cy="392" r="24" />
+      <path d="M476 377v15l11 8" />
+      <path class="draw" pathLength="1" d="M312 232c40-10 70-66 112-98m-15 1l15-1-5 14M312 250h110m-12-9l12 9-12 9M312 268c40 10 70 72 112 104m-5-14l5 14-15 1" />
+    </g>
+
+    {slips.map(slip => (
+      <g data-el={slip.el}>
+        <rect class={`${slip.wash} ns`} data-box="6" rx="3" />
+        <rect class="f-paper" data-box="0" rx="3" />
+        <circle class="hole" data-at="4 5" cx="60" cy="0" r="3" />
+      </g>
+    ))}
+
+    <g data-el="dup">
+      <rect class="dash" x="0" y="-22" width="270" height="44" rx="3" />
+      <rect class="rp" x="126" y="-16" width="134" height="32" rx="4" transform="rotate(-5 193 0)" />
+    </g>
+  </g>
+
+  <g class="fly" data-at="1" transform="translate(455 120)">
+    <rect class="f-paper" x="-17" y="-20" width="34" height="40" rx="2" />
+    <rect class="f-paper" x="-17" y="-20" width="34" height="40" rx="2" />
+    <rect class="f-paper" x="-17" y="-20" width="34" height="40" rx="2" />
+  </g>
+
+  <text data-at="1" class="t-num" x="455" y="152" text-anchor="middle">31</text>
+  <g data-at="3"><text class="t-ok ticket" x="366" y="184" text-anchor="middle">ACTIVE ✓</text></g>
+  <circle class="pulse" data-at="6" cx="244.6" cy="344" r="4" />
+  <g class="reads" data-at="8"><circle r="4" /><circle r="4" /><circle r="4" /></g>
+
+  <g data-at="6">
+    <text class="t-cap" x="40" y="92">LEDGER ROWS</text>
+    <text class="t-cap" x="40" y="296">SEATS ON EACH DAY</text>
+    <text class="t-row" x="96" y="352">10</text>
+    <text class="t-row" x="178" y="312">15</text>
+    <text class="t-row" x="220" y="336">12</text>
+    <text class="t-row" x="304" y="352">10</text>
+    <text class="t-pen" x="254" y="88">today</text>
+    {ticks.map(tick => <text class="t-dim" x={tick.x} y="462" text-anchor="middle">{tick.day}</text>)}
+  </g>
+
+  {cards.map(card => (
+    <g data-el={card.el}>
+      <text class="t-cap" x="-134" y="-84">{card.title}</text>
+      <text class="t-row" x="-134" y="-40">status</text>
+      <text class="t-ok" x="91" y="-43" text-anchor="middle" transform="rotate(-4 91 -48)">ACTIVE</text>
+      <text class="t-row" x="-134" y="0">startDate</text>
+      <text class="t-row" x="134" y="0" text-anchor="end">{card.start}</text>
+      <text class="t-row" x="-134" y="40">endDate</text>
+      {card.end
+        ? <text class="t-row" x="134" y="40" text-anchor="end">{card.end}</text>
+        : <>
+            <g data-el="e30"><text class="t-row" text-anchor="end">day 30</text></g>
+            <text data-at="2 3" class="t-row" x="76" y="40" text-anchor="end">day 45</text>
+            <text data-at="2 3" class="t-row t-strong" x="134" y="40" text-anchor="end">day 60</text>
+          </>}
+      <text class="t-row" x="-134" y="80">staffLimit</text>
+      <text class="t-row" x="134" y="80" text-anchor="end">{card.limit}</text>
+    </g>
+  ))}
+
+  <text data-at="8" x="480" y="170" text-anchor="middle" class="t-row">login guard</text>
+  <text data-at="8" x="476" y="304" text-anchor="middle" class="t-row">banners</text>
+  <text data-at="8" x="476" y="442" text-anchor="middle" class="t-row">cron audiences</text>
+
+  {slips.map(slip => (
+    <g data-el={slip.el}>
+      <text class:list={['t-count', { 't-neg': slip.count.startsWith('−') }]} x="14" y="6">{slip.count}</text>
+      <text data-at="4 5" x="78" y="4">{slip.label}</text>
+    </g>
+  ))}
+
+  <g data-el="dup">
+    <text class="t-count" x="14" y="6">+10</text>
+    <text x="78" y="4">sale</text>
+    <text class="t-red" x="193" y="4" text-anchor="middle" transform="rotate(-5 193 0)">ALREADY FILED</text>
+  </g>
+
+  {notes.map((note, beat) => <text data-at={beat} class="t-pen" x="300" y={note.y} text-anchor="middle">{note.text}</text>)}
+</svg>
+
+<script>
+  // q makes an opacity change a hard swap: 1 at the start of the move into that beat, 2 at its end.
+  interface Frame { x: number; y: number; r: number; s: number; o: number; w: number; h: number; q: number }
+  type Keys = Record<number, Partial<Frame>>;
+
+  const BEATS = 9;
+  const CELL = 520 / 75;
+  const WINDOWS = [[8, 37], [20, 37], [26, 37], [38, 67]];
+  const TILT = [-4, 3, -3, 5];
+
+  const KEYS: Record<string, Keys> = {
+    card: { 0: { x: 300, y: 250 }, 1: { x: 215, y: 270, s: .85 }, 2: { x: 300, y: 250, s: 1 }, 3: { x: 190, s: .8 }, 4: { o: 0, q: 1 }, 5: { q: 0 } },
+    e30: { 0: { x: 134, y: 40 }, 2: { x: 18 } },
+    door: { 0: { x: 480, y: 250, o: 0 }, 3: { o: 1 }, 4: { o: 0 }, 7: { y: 110, s: .6 }, 8: { o: 1 } },
+    dup: { 0: { x: 430, y: 30, r: 16, o: 0 }, 5: { x: 250, y: 120, r: 9, o: 1 }, 6: { x: 430, y: 30, o: 0 } },
+    proj: { 0: { x: 300, y: 250, o: 0 }, 7: { o: 1, q: 2 }, 8: { x: 180, s: .8, q: 0 } },
+  };
+  WINDOWS.forEach(([start, end], i) => {
+    KEYS[`s${i + 1}`] = {
+      // The slips start as four strips lying exactly over the old row card, and end as four strips that make up the projection card.
+      0: { x: 70, y: 184 + (3 - i) * 44, s: .8, o: 0, w: 300, h: 55 },
+      4: { x: 160, y: 392 - i * 58, r: TILT[i], s: 1, o: 1, w: 270, h: 44, q: 1 },
+      5: { q: 0 },
+      6: { x: 40 + (start - 1) * CELL, y: 120 + i * 34, r: 0, w: (end - start + 1) * CELL, h: 26 },
+      7: { x: 150, y: 167.5 + (3 - i) * 55, w: 300, h: 55, o: 0, q: 2 },
+      8: { q: 0 },
+    };
+  });
+
+  // The part of the 600 by 520 drawing each beat looks at: x, y, width, height.
+  const CAMERA = [
+    [130, 110, 340, 320], [70, 50, 520, 385], [130, 110, 370, 320], [55, 130, 500, 280], [110, 100, 380, 436],
+    [110, 60, 430, 476], [20, 66, 560, 464], [130, 110, 340, 320], [45, 56, 510, 450],
+  ];
+
+  // Each beat inherits whatever the beat before it set.
+  const FRAMES: Record<string, Frame[]> = {};
+  for (const [name, keys] of Object.entries(KEYS)) {
+    let frame: Frame = { x: 0, y: 0, r: 0, s: 1, o: 1, w: 0, h: 0, q: 0 };
+    FRAMES[name] = Array.from({ length: BEATS }, (_, beat) => (frame = { ...frame, ...keys[beat] }));
+  }
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const stacked = matchMedia('(max-width: 760px)');
+  const clamp = (value: number) => Math.max(0, Math.min(1, value));
+  const ease = (t: number) => t * t * (3 - 2 * t);
+
+  function painter(svg: SVGSVGElement) {
+    const movers = [...svg.querySelectorAll<SVGGElement>('[data-el]')].map(node => ({ node, frames: FRAMES[node.dataset.el!], boxes: [...node.querySelectorAll<SVGRectElement>('[data-box]')] }));
+    const timed = [...svg.querySelectorAll<SVGElement>('[data-at]')].map(node => {
+      const [from, to = from] = node.dataset.at!.split(' ').map(Number);
+      return { node, from, to };
+    });
+    let last = -1;
+    return (beat: number) => {
+      if (reduceMotion) beat = Math.round(beat);
+      if (beat === last) return;
+      last = beat;
+      const a = Math.floor(beat), b = Math.min(a + 1, BEATS - 1), t = beat - a;
+      for (const { node, frames, boxes } of movers) {
+        const mix = (key: keyof Frame) => frames[a][key] + (frames[b][key] - frames[a][key]) * t;
+        node.setAttribute('transform', `translate(${mix('x')} ${mix('y')}) rotate(${mix('r')}) scale(${mix('s')})`);
+        // Whatever leaves is gone by the halfway point and whatever arrives starts there, so two beats never show on top of each other.
+        const from = frames[a].o, to = frames[b].o, swap = frames[b].q;
+        node.style.opacity = String(from + (to - from) * clamp(swap === 1 ? t * 8 : swap === 2 ? 1 - (1 - t) * 8 : to < from ? t * 2 : t * 2 - 1));
+        for (const box of boxes) {
+          const offset = Number(box.dataset.box);
+          box.setAttribute('x', String(offset));
+          box.setAttribute('y', String(offset - mix('h') / 2));
+          box.setAttribute('width', String(mix('w')));
+          box.setAttribute('height', String(mix('h')));
+        }
+      }
+      for (const { node, from, to } of timed) {
+        const shown = clamp(1 - 2 * Math.max(from - beat, beat - to));
+        node.style.opacity = String(shown);
+        node.style.setProperty('--o', String(shown));
+      }
+      svg.setAttribute('viewBox', CAMERA[a].map((value, i) => value + (CAMERA[b][i] - value) * t).join(' '));
+      svg.dataset.beat = String(Math.round(beat));
+    };
+  }
+
+  for (const film of document.querySelectorAll<HTMLElement>('.film')) {
+    const steps = [...film.querySelectorAll<HTMLElement>('.step')];
+    // With data-lead the first step is the beat after data-beat, and the move into it plays as the section scrolls in.
+    const lead = film.hasAttribute('data-lead') ? 1 : 0;
+    const first = Number(film.dataset.beat) + lead;
+    const inkFrom = Number(film.dataset.ink ?? BEATS);
+    const pinned = painter(film.querySelector<SVGSVGElement>('.film-stage .stage')!);
+    // On a phone nothing is pinned. Each step carries its own copy of the drawing, shaped to its beat.
+    const inline = steps.map((step, i) => {
+      const svg = step.querySelector<SVGSVGElement>('.stage')!;
+      svg.style.aspectRatio = `${CAMERA[first + i][2]} / ${CAMERA[first + i][3]}`;
+      return { svg, paint: painter(svg) };
+    });
+
+    function tick() {
+      let beat = first;
+      if (stacked.matches) {
+        // Each copy plays the move from the beat before it while it rises through the bottom third of the screen.
+        inline.forEach(({ svg, paint }, i) => {
+          const t = i || lead ? ease(clamp((innerHeight - svg.getBoundingClientRect().top) / (innerHeight * .3))) : 1;
+          paint(first + i - 1 + t);
+          if (t > .5) beat = first + i;
+        });
+      } else {
+        // A step is current when its middle crosses the middle of the screen.
+        const mids = steps.map(step => { const box = step.getBoundingClientRect(); return (box.top + box.bottom) / 2; });
+        if (lead) mids.unshift(mids[0] - innerHeight * .7);
+        let i = 0;
+        while (i < mids.length - 1 && mids[i + 1] <= innerHeight / 2) i++;
+        beat += i - lead;
+        if (i < mids.length - 1 && innerHeight / 2 > mids[i]) beat += ease(clamp(((innerHeight / 2 - mids[i]) / (mids[i + 1] - mids[i]) - .2) / .6));
+        steps.forEach((step, index) => step.classList.toggle('on', index === Math.round(beat - first)));
+        pinned(beat);
+      }
+      film.classList.toggle('film-ink', beat > inkFrom);
+    }
+
+    film.classList.add('film-on');
+    addEventListener('scroll', () => requestAnimationFrame(tick), { passive: true });
+    addEventListener('resize', tick);
+    tick();
+  }
+</script>

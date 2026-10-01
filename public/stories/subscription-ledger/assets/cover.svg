@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1672 941" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="rules" width="1672" height="47" patternUnits="userSpaceOnUse"><line x1="0" y1="46.5" x2="1672" y2="46.5" stroke="#d6cdb9"/></pattern>
+  </defs>
+  <rect width="1672" height="941" fill="#f3eee3"/>
+  <rect width="1672" height="941" fill="url(#rules)"/>
+  <line x1="150" y1="0" x2="150" y2="941" stroke="#c4311c" stroke-opacity=".45"/>
+  <g transform="rotate(-2 836 470)">
+    <rect x="356" y="150" width="960" height="640" fill="#15171c" fill-opacity=".08" transform="translate(16 16)"/>
+    <rect x="356" y="150" width="960" height="640" fill="#fbf8f1" stroke="#15171c" stroke-width="2"/>
+    <text x="406" y="222" font-size="24" letter-spacing="3" fill="#15171c">SUBSCRIPTIONS</text>
+    <text x="1266" y="222" font-size="24" fill="#5b5e66" text-anchor="end">one row, edited in place</text>
+    <line x1="406" y1="250" x2="1266" y2="250" stroke="#15171c" stroke-width="4"/>
+    <g font-size="36">
+      <text x="406" y="330" fill="#5b5e66">endDate</text><text x="1266" y="330" fill="#15171c" text-anchor="end" font-weight="600">day 30</text>
+      <line x1="406" y1="362" x2="1266" y2="362" stroke="#d6cdb9" stroke-dasharray="8 6"/>
+      <text x="406" y="442" fill="#5b5e66">today</text><text x="1266" y="442" fill="#15171c" text-anchor="end" font-weight="600">day 34</text>
+      <line x1="406" y1="474" x2="1266" y2="474" stroke="#d6cdb9" stroke-dasharray="8 6"/>
+      <text x="406" y="554" fill="#5b5e66">updatedAt</text><text x="1266" y="554" fill="#15171c" text-anchor="end" font-weight="600">day 1</text>
+      <line x1="406" y1="586" x2="1266" y2="586" stroke="#d6cdb9" stroke-dasharray="8 6"/>
+      <text x="406" y="690" fill="#5b5e66">status</text>
+    </g>
+    <text x="1250" y="700" font-size="72" font-weight="700" fill="#15171c" text-anchor="end">ACTIVE</text>
+    <path d="M950 690c-14-70 130-96 240-88s134 60 110 104-150 52-248 40-124-60-96-110" fill="none" stroke="#c4311c" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>

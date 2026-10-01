@@ -1,0 +1,225 @@
+---
+import './style.css';
+import Stage from './Stage.astro';
+const base = import.meta.env.BASE_URL;
+
+const sections = [
+  { id: 'before', label: 'The row' },
+  { id: 'facts', label: 'Facts' },
+  { id: 'fold', label: 'Fold' },
+  { id: 'answer', label: 'One answer' },
+];
+
+const jobs = [
+  { title: 'It stored an answer that depends on the date', body: 'Status lived in a column. A refresh job had to rewrite it whenever a date passed. When we compared each row\'s stored status with its own dates, a large share of the table disagreed with itself.' },
+  { title: 'Every change erased the one before', body: 'A renewal overwrote the dates. An extension moved the end date and kept no record of its price. The row showed the current limit and nothing about how it got there.' },
+  { title: 'Access trusted it', body: 'The access check read the status and skipped the dates. It also let through rows that were deactivated or had not started yet.' },
+];
+
+const refresh = [
+  { title: 'Writers refresh it in their own transaction', body: 'A sale locks the account, appends its rows, folds the ledger again and writes the projection before it commits. The access check sees the sale in the same commit that recorded it.' },
+  { title: 'Dates need a refresh with no writer', body: 'An expiry is not a write. A once-per-day check, attached to a per-account refresh the product already ran, folds again if nothing wrote the row today.' },
+  { title: 'Side effects run on change only', body: 'Each staff member carries an access flag copied from the subscription. Flipping it means loading every staff member of the account. The refresh compares the new row with the old one and does that work only when the state changed.' },
+];
+
+const cacheInside = [
+  { who: 'Writer', what: 'Appends rows and writes the new projection. Not committed yet.' },
+  { who: 'Writer', what: 'Clears the cache.' },
+  { who: 'Reader', what: 'Misses the cache, reads the table, gets the old committed row and caches it.', bad: true },
+  { who: 'Writer', what: 'Commits.' },
+];
+const cacheAfter = [
+  { who: 'Writer', what: 'Appends rows and writes the new projection.' },
+  { who: 'Writer', what: 'Commits.' },
+  { who: 'Writer', what: 'Clears the cache.' },
+  { who: 'Reader', what: 'Misses the cache, reads the table, gets the new row and caches it.', good: true },
+];
+
+
+---
+
+<svg class="defs" width="0" height="0" aria-hidden="true"><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="noise" /><feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" /></filter></svg>
+
+<a class="skip" href="#lab">Skip to the interactive ledger</a>
+
+<header class="top">
+  <a class="byline" href={base}>PALLAB <span>/</span> CASE STUDIES</a>
+  <nav aria-label="Sections">
+    {sections.map((section, i) => <a href={`#${section.id}`} data-nav={section.id}><b>{String(i + 1).padStart(2, '0')}</b> {section.label}</a>)}
+  </nav>
+  <i class="progress" aria-hidden="true"></i>
+</header>
+
+<main id="top">
+  <section class="hero" id="row">
+    <div class="hero-copy">
+      <p class="kicker">Case study <span>·</span> Subscription revamp</p>
+      <h1>Nobody touched this row. <em>By morning it was wrong.</em></h1>
+      <p class="lede">A subscription row stored its status next to its dates. Status depends on today's date, so a stored status goes stale at midnight with no write. We replaced that row with a ledger of facts and moved every access check to it.</p>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Backend design and build</dd></div>
+        <div><dt>System</dt><dd>Subscriptions and access in a SaaS product</dd></div>
+        <div><dt>Shipped</dt><dd>September 2026</dd></div>
+      </dl>
+    </div>
+
+    <figure class="slip" data-rot data-stale="false">
+      <div class="cal" aria-hidden="true"><span>Today</span><b data-rot-cal>24</b></div>
+      <figcaption><span>Subscriptions</span><span>one row, edited in place</span></figcaption>
+      <dl class="fields">
+        <div><dt>id</dt><dd>5512</dd></div>
+        <div><dt>startDate</dt><dd>day 1</dd></div>
+        <div><dt>endDate</dt><dd>day 30</dd></div>
+        <div class="field-status"><dt>status</dt><dd><span class="stored">ACTIVE<svg viewBox="0 0 120 44" aria-hidden="true" preserveAspectRatio="none"><path d="M12 24C10 9 48 3 78 5s36 13 30 24-40 12-66 9S9 31 16 17" /></svg></span></dd></div>
+        <div><dt>staffLimit</dt><dd>10</dd></div>
+        <div><dt>updatedAt</dt><dd>day 1</dd></div>
+      </dl>
+      <p class="pen" data-rot-note aria-live="polite">Stored status and dates agree.</p>
+      <div class="slip-clock">
+        <label for="rot-day">Today</label>
+        <input id="rot-day" type="range" min="1" max="60" step="1" value="24" data-rot-day aria-describedby="rot-says" />
+        <output for="rot-day" data-rot-out>day 24</output>
+      </div>
+      <p class="says" id="rot-says">The dates say <strong data-rot-derived>ACTIVE</strong></p>
+    </figure>
+
+    <a class="down" href="#before">Read the decisions <span aria-hidden="true">↓</span></a>
+  </section>
+
+  <section class="film" data-beat="0" data-lead data-ink="5.5" aria-label="The old row and the first two decisions">
+    <div class="steps">
+      {jobs.map((job, i) => (
+        <div class="step" id={i === 0 ? 'before' : undefined}><figure class="step-art"><Stage /></figure>
+          {i === 0 && <><p class="kicker">Before</p><h2>One row did three jobs</h2><p class="lead">The old table kept one row per subscription and edited it in place. The same row was the record of the purchase, the current state, and the source for staff access.</p></>}
+          <p class="kicker">Job {i + 1}</p><h3>{job.title}</h3><p>{job.body}</p>
+        </div>
+      ))}
+      <div class="step" id="facts"><figure class="step-art"><Stage /></figure>
+        <p class="kicker">Decision 1</p>
+        <h2>Store what happened</h2>
+        <p class="lead">The ledger is the new source of truth. Each row is one fact about coverage, and nobody updates or deletes a row. A correction is a new row with the opposite sign.</p>
+      </div>
+      <div class="step"><figure class="step-art"><Stage /></figure>
+        <h3>A fact is filed once</h3>
+        <p>Every row records where it came from, down to the order and the line item. We call that its provenance, and it is unique across the ledger. A payment webhook delivered twice finds its provenance already filed and appends nothing. The customer gets no second grant and no second SMS.</p>
+      </div>
+      <div class="step" id="fold"><figure class="step-art"><Stage /></figure>
+        <p class="kicker">Decision 2</p>
+        <h2>Compute the state</h2>
+        <p class="lead">State comes from the ledger and today's date. For any day, add the signed counts of the rows whose window covers it. We call that sum the fold. Trial rows and paid rows fold separately and paid coverage wins while it is in force, so a purchase in the middle of a trial needs no row that cancels the trial. Some paid plans keep access for a few days of grace after the window ends.</p>
+      </div>
+    </div>
+    <div class="film-stage"><Stage /></div>
+  </section>
+
+  <section class="band band-ink band-lab" aria-label="Interactive ledger">
+    <div class="folio" aria-hidden="true">03</div>
+    <div class="band-body">
+      <div class="lab" id="lab" data-lab>
+        <div class="lab-head">
+          <h3>One fictional account, 75 days</h3>
+          <p>Choose which facts happen. Then move today.</p>
+        </div>
+
+        <fieldset class="lab-facts">
+          <legend>Facts in this account's history</legend>
+          <div data-lab-facts></div>
+          <button type="button" class="lab-replay" data-lab-replay>Deliver the plan's payment webhook again</button>
+          <p class="lab-replay-note" data-lab-replay-note role="status"></p>
+        </fieldset>
+
+        <div class="lab-stage">
+          <div class="lab-chart" data-lab-chart role="img" aria-label="Timeline of ledger rows, seats on each day, and lifecycle state on each day"></div>
+          <div class="lab-scrub">
+            <label for="lab-day">Today</label>
+            <input id="lab-day" type="range" min="1" max="75" step="1" value="30" data-lab-day />
+            <output for="lab-day" data-lab-day-out>day 30</output>
+          </div>
+          <div class="lab-verdict" data-lab-verdict aria-live="polite" aria-atomic="true">
+            <span data-lab-state>ACTIVE</span>
+            <strong data-lab-answer>Entitled, 12 seats</strong>
+            <p data-lab-why></p>
+          </div>
+        </div>
+
+        <div class="lab-out">
+          <div class="lab-ledger">
+            <h4>Ledger <span data-lab-count></span></h4>
+            <div class="lab-table-scroll"><table>
+              <thead><tr><th scope="col">Filed</th><th scope="col">Provenance</th><th scope="col">Days</th><th scope="col">Count</th></tr></thead>
+              <tbody data-lab-rows></tbody>
+            </table></div>
+          </div>
+          <div class="lab-projection">
+            <h4>Projection row</h4>
+            <dl data-lab-projection></dl>
+          </div>
+        </div>
+        <p class="lab-note">This page runs a port of the fold on whole-number days. The projection row is the stored result of the fold, covered in the next section. The account, the days and the counts are fictional.</p>
+        <noscript><p class="lab-note">The interactive ledger needs JavaScript. In its default state the account holds a trial for days 1 to 14, a purchase of 10 seats for days 8 to 37, 5 extra seats for days 20 to 37, a correction of 3 seats fewer for days 26 to 37 and a renewal of 10 seats for days 38 to 67. On day 30 the fold gives 12 seats and the state is ACTIVE.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <section class="film" id="answer" data-beat="6" data-lead aria-label="The third decision">
+    <div class="steps">
+      <div class="step"><figure class="step-art"><Stage /></figure>
+        <p class="kicker">Decision 3</p>
+        <h2>Store the answer once</h2>
+        <p class="lead">Every request checks entitlement. Folding the ledger on every request is wasted work, so the writer stores the fold's result in a projection table with one row per account and product.</p>
+      </div>
+      <div class="step"><figure class="step-art"><Stage /></figure><p class="lead">Login guards, banners and cron audiences read that row and nothing else.</p></div>
+    </div>
+    <div class="film-stage"><Stage /></div>
+  </section>
+
+  <section class="band" aria-label="Keeping the projection row fresh">
+    <div class="folio" aria-hidden="true">04</div>
+    <div class="band-body">
+      <ol class="jobs jobs-plain">
+        {refresh.map(item => <li class="reveal"><h3>{item.title}</h3><p>{item.body}</p></li>)}
+      </ol>
+
+      <div class="cache reveal">
+        <h3>When to clear the cache</h3>
+        <p>The projection row is cached per account. The writer clears the cache only after it commits. Clearing it inside the transaction looks safer and is wrong.</p>
+        <div class="cache-grid">
+          <figure class="cache-case cache-bad">
+            <figcaption>Clear inside the transaction</figcaption>
+            <ol>{cacheInside.map(step => <li class:list={{ bad: step.bad }} data-who={step.who}><b>{step.who}</b>{step.what}</li>)}</ol>
+            <p>The cache holds the old row until it expires.</p>
+          </figure>
+          <figure class="cache-case cache-good">
+            <figcaption>Clear after commit <span>shipped</span></figcaption>
+            <ol>{cacheAfter.map(step => <li class:list={{ good: step.good }} data-who={step.who}><b>{step.who}</b>{step.what}</li>)}</ol>
+            <p>The next read caches the committed row.</p>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="band band-close" id="next" aria-label="Summary">
+    <div class="folio" aria-hidden="true"></div>
+    <div class="band-body">
+      <p class="summary">The ledger stores facts. The fold computes state. <em>One row caches the answer.</em></p>
+      <p class="outcome">Since September 2026 every access check reads that row.</p>
+      <div class="links">
+        <a href={`${base}stories/subscriptions/`}>The same project as a scroll film <span aria-hidden="true">↗</span></a>
+        <a href={base}>All case studies <span aria-hidden="true">↗</span></a>
+        <a href="#top">Back to the top <span aria-hidden="true">↑</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>The account, days and seat counts in the interactives are fictional. The architecture and the decisions come from the real project. We left out production numbers.</p>
+  <p>Written and built by Pallab.</p>
+</footer>
+
+<script>
+  import './story.ts';
+</script>
