@@ -213,6 +213,14 @@ const ticks = [1, 10, 20, 30, 40, 50, 60, 70].map(day => ({ day, x: 40 + ((day -
       const [from, to = from] = node.dataset.at!.split(' ').map(Number);
       return { node, from, to };
     });
+    const attributes = new WeakMap<SVGElement, Map<string, string>>();
+    function setAttribute(node: SVGElement, name: string, value: string) {
+      let values = attributes.get(node);
+      if (!values) { values = new Map(); attributes.set(node, values); }
+      if (values.get(name) === value) return;
+      values.set(name, value);
+      node.setAttribute(name, value);
+    }
     let last = -1;
     return (beat: number) => {
       if (reduceMotion) beat = Math.round(beat);
@@ -221,16 +229,16 @@ const ticks = [1, 10, 20, 30, 40, 50, 60, 70].map(day => ({ day, x: 40 + ((day -
       const a = Math.floor(beat), b = Math.min(a + 1, BEATS - 1), t = beat - a;
       for (const { node, frames, boxes } of movers) {
         const mix = (key: keyof Frame) => frames[a][key] + (frames[b][key] - frames[a][key]) * t;
-        node.setAttribute('transform', `translate(${mix('x')} ${mix('y')}) rotate(${mix('r')}) scale(${mix('s')})`);
+        setAttribute(node, 'transform', `translate(${mix('x')} ${mix('y')}) rotate(${mix('r')}) scale(${mix('s')})`);
         // Whatever leaves is gone by the halfway point and whatever arrives starts there, so two beats never show on top of each other.
         const from = frames[a].o, to = frames[b].o, swap = frames[b].q;
         node.style.opacity = String(from + (to - from) * clamp(swap === 1 ? t * 8 : swap === 2 ? 1 - (1 - t) * 8 : to < from ? t * 2 : t * 2 - 1));
         for (const box of boxes) {
           const offset = Number(box.dataset.box);
-          box.setAttribute('x', String(offset));
-          box.setAttribute('y', String(offset - mix('h') / 2));
-          box.setAttribute('width', String(mix('w')));
-          box.setAttribute('height', String(mix('h')));
+          setAttribute(box, 'x', String(offset));
+          setAttribute(box, 'y', String(offset - mix('h') / 2));
+          setAttribute(box, 'width', String(mix('w')));
+          setAttribute(box, 'height', String(mix('h')));
         }
       }
       for (const { node, from, to } of timed) {
@@ -238,7 +246,7 @@ const ticks = [1, 10, 20, 30, 40, 50, 60, 70].map(day => ({ day, x: 40 + ((day -
         node.style.opacity = String(shown);
         node.style.setProperty('--o', String(shown));
       }
-      svg.setAttribute('viewBox', CAMERA[a].map((value, i) => value + (CAMERA[b][i] - value) * t).join(' '));
+      setAttribute(svg, 'viewBox', CAMERA[a].map((value, i) => value + (CAMERA[b][i] - value) * t).join(' '));
       svg.dataset.beat = String(Math.round(beat));
     };
   }
@@ -254,16 +262,25 @@ const ticks = [1, 10, 20, 30, 40, 50, 60, 70].map(day => ({ day, x: 40 + ((day -
     const inline = steps.map((step, i) => {
       const svg = step.querySelector<SVGSVGElement>('.stage')!;
       svg.style.aspectRatio = `${CAMERA[first + i][2]} / ${CAMERA[first + i][3]}`;
-      return { svg, paint: painter(svg) };
+      const paint = painter(svg);
+      paint(first + i);
+      return { svg, paint };
     });
 
+    let visible = true;
+    let frame = 0;
     function tick() {
+      frame = 0;
+      if (!visible || document.hidden) return;
       let beat = first;
       if (stacked.matches) {
         // Each copy plays the move from the beat before it while it rises through the bottom third of the screen.
-        inline.forEach(({ svg, paint }, i) => {
-          const t = i || lead ? ease(clamp((innerHeight - svg.getBoundingClientRect().top) / (innerHeight * .3))) : 1;
-          paint(first + i - 1 + t);
+        // Read every position before changing SVG geometry to avoid repeated layouts.
+        const boxes = inline.map(({ svg }) => svg.getBoundingClientRect());
+        inline.forEach(({ paint }, i) => {
+          const box = boxes[i];
+          const t = i || lead ? ease(clamp((innerHeight - box.top) / (innerHeight * .3))) : 1;
+          if (box.bottom > 0 && box.top < innerHeight) paint(first + i - 1 + t);
           if (t > .5) beat = first + i;
         });
       } else {
@@ -281,8 +298,30 @@ const ticks = [1, 10, 20, 30, 40, 50, 60, 70].map(day => ({ day, x: 40 + ((day -
     }
 
     film.classList.add('film-on');
-    addEventListener('scroll', () => requestAnimationFrame(tick), { passive: true });
-    addEventListener('resize', tick);
+    function schedule() {
+      if (!frame && visible && !document.hidden) frame = requestAnimationFrame(tick);
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      film.classList.toggle('film-visible', visible && !document.hidden);
+      if (visible) schedule();
+    });
+    observer.observe(film);
+    // A visible section can contain several drawings below the viewport.
+    const drawings = [...film.querySelectorAll<SVGSVGElement>('.stage')];
+    const drawingObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        entry.target.classList.toggle('stage-visible', entry.isIntersecting);
+      }
+    });
+    drawings.forEach(svg => drawingObserver.observe(svg));
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule);
+    document.addEventListener('visibilitychange', () => {
+      film.classList.toggle('film-visible', visible && !document.hidden);
+      if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
+      else schedule();
+    });
     tick();
   }
 </script>

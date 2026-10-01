@@ -273,7 +273,7 @@ body::after { content: ''; position: fixed; inset: 0; z-index: 40; pointer-event
 .stage .reads circle:nth-child(1) { offset-path: path('M312 232c40-10 70-66 112-98'); }
 .stage .reads circle:nth-child(2) { offset-path: path('M312 250h110'); animation-delay: -.6s; }
 .stage .reads circle:nth-child(3) { offset-path: path('M312 268c40 10 70 72 112 104'); animation-delay: -1.2s; }
-.stage[data-beat='1'] .fly rect, .stage[data-beat='3'] .ticket, .stage[data-beat='6'] .pulse, .stage[data-beat='8'] .reads circle { animation-play-state: running; }
+.film-visible .stage.stage-visible[data-beat='1'] .fly rect, .film-visible .stage.stage-visible[data-beat='3'] .ticket, .film-visible .stage.stage-visible[data-beat='6'] .pulse, .film-visible .stage.stage-visible[data-beat='8'] .reads circle { animation-play-state: running; }
 @keyframes ticket { from { transform: translate(-44px, 12px); opacity: 0; } 20%, 70% { opacity: 1; } to { transform: translate(50px, 30px); opacity: 0; } }
 @keyframes pulse { from { stroke-width: 0; stroke-opacity: .6; } to { stroke-width: 26px; stroke-opacity: 0; } }
 @keyframes read { from { offset-distance: 0%; opacity: 0; } 15%, 85% { opacity: 1; } to { offset-distance: 100%; opacity: 0; } }
@@ -315,4 +315,11 @@ body::after { content: ''; position: fixed; inset: 0; z-index: 40; pointer-event
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media (max-width: 760px), (pointer: coarse) {
+  .top { background: #f3eee3; backdrop-filter: none; }
+  /* Keep the drawings, but avoid rerasterizing noise and displacement on scroll. */
+  .stage > g[filter] { filter: none; }
+  body::after { display: none; }
 }
