@@ -26,6 +26,9 @@ const imageUrl = new URL(base + image, Astro.site);
     <meta name="twitter:image" content={imageUrl} />
     <link rel="canonical" href={url} />
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    {import.meta.env.PROD && (
+      <script is:inline async data-goatcounter="https://pallab.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>
+    )}
   </head>
   <body><slot /></body>
 </html>
